@@ -6,6 +6,7 @@ import { SignInPage } from './SignInPage';
 import { Header } from './Header';
 import { HomePage } from './HomePage';
 import { NotFoundPage } from './NotFoundPage';
+import { QuestionPage } from './QuestionPage';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import { fontFamily, fontSize, gray2 } from './Styles';
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           <Route path="/search" component={SearchPage} />
           <Route path="/ask" component={AskPage} />
           <Route path="/signin" component={SignInPage} />
+          <Route path="/questions/:questionId" component={QuestionPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>
