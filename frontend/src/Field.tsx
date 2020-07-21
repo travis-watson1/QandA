@@ -41,7 +41,7 @@ export const Field: FC<Props> = ({ name, label, type = 'Text' }) => {
   };
 
   return (
-    <FormContext.Provider>
+    <FormContext.Consumer>
       {({ values }) => (
         <div
           css={css`
@@ -63,9 +63,7 @@ export const Field: FC<Props> = ({ name, label, type = 'Text' }) => {
           {(type === 'Text' || type === 'Password') && (
             <input
               type={type.toLowerCase()}
-              value={
-                context.values[name] === undefined ? '' : context.values[name]
-              }
+              value={values[name] === undefined ? '' : values[name]}
               id={name}
               onChange={handleChange}
               css={baseCSS}
@@ -74,9 +72,7 @@ export const Field: FC<Props> = ({ name, label, type = 'Text' }) => {
           {type === 'TextArea' && (
             <textarea
               id={name}
-              value={
-                context.values[name] === undefined ? '' : context.values[name]
-              }
+              value={values[name] === undefined ? '' : values[name]}
               onChange={handleChange}
               css={css`
                 ${baseCSS};
@@ -86,6 +82,6 @@ export const Field: FC<Props> = ({ name, label, type = 'Text' }) => {
           )}
         </div>
       )}
-    </FormContext.Provider>
+    </FormContext.Consumer>
   );
 };
