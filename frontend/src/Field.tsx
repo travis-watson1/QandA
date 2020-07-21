@@ -1,4 +1,5 @@
-import React, { FC } from 'react';
+import React, { FC, useContext, ChangeEvent } from 'react';
+import { FormContext } from './Form';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import { fontFamily, fontSize, gray5, gray2, gray6 } from './Styles';
@@ -28,35 +29,63 @@ const baseCSS = css`
   }
 `;
 
-export const Field: FC<Props> = ({ name, label, type = 'Text' }) => (
-  <div
-    css={css`
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 15px;
-    `}
-  >
-    {label && (
-      <label
-        css={css`
-          font-weight: bold;
-        `}
-        htmlFor={name}
-      >
-        {label}
-      </label>
-    )}
-    {(type === 'Text' || type === 'Password') && (
-      <input type={type.toLowerCase()} id={name} css={baseCSS} />
-    )}
-    {type === 'TextArea' && (
-      <textarea
-        id={name}
-        css={css`
-          ${baseCSS};
-          height: 100px;
-        `}
-      />
-    )}
-  </div>
-);
+export const Field: FC<Props> = ({ name, label, type = 'Text' }) => {
+  const { setValue } = useContext(FormContext);
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    if (setValue) {
+      setValue(name, e.currentTarget.value);
+    }
+  };
+
+  return (
+    <FormContext.Provider>
+      {({ values }) => (
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+          `}
+        >
+          {label && (
+            <label
+              css={css`
+                font-weight: bold;
+              `}
+              htmlFor={name}
+            >
+              {label}
+            </label>
+          )}
+          {(type === 'Text' || type === 'Password') && (
+            <input
+              type={type.toLowerCase()}
+              value={
+                context.values[name] === undefined ? '' : context.values[name]
+              }
+              id={name}
+              onChange={handleChange}
+              css={baseCSS}
+            />
+          )}
+          {type === 'TextArea' && (
+            <textarea
+              id={name}
+              value={
+                context.values[name] === undefined ? '' : context.values[name]
+              }
+              onChange={handleChange}
+              css={css`
+                ${baseCSS};
+                height: 100px;
+              `}
+            />
+          )}
+        </div>
+      )}
+    </FormContext.Provider>
+  );
+};
