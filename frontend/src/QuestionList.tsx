@@ -8,9 +8,10 @@ import { Question } from './Question';
 
 interface Props {
     data: QuestionData[];
+    renderItem?: (item: QuestionData) => JSX.Element;
 }
 
-export const QuestionList: FC<Props> = props => (
+export const QuestionList: FC<Props> = ({ data, renderItem }) => (
     <ul
         css={css`
             list-style: none;
@@ -23,7 +24,7 @@ export const QuestionList: FC<Props> = props => (
             box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
         `}
     >
-        {props.data.map(question => (
+        {data.map(question => (
             <li
                 key={question.questionId}
                 css={css`
@@ -33,7 +34,7 @@ export const QuestionList: FC<Props> = props => (
                     }
                 `}
             >
-                <Question data={question} />
+                {renderItem ? renderItem(question) : <Question data={question} /> }
             </li>
         ))}
     </ul>
