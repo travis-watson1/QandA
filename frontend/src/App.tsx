@@ -5,6 +5,7 @@ import { SearchPage } from './SearchPage';
 import { SignInPage } from './SignInPage';
 import { Header } from './Header';
 import { HomePage } from './HomePage';
+import { NotFoundPage } from './NotFoundPage';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import { fontFamily, fontSize, gray2 } from './Styles';
@@ -26,6 +27,7 @@ const App: React.FC = () => {
           <Route path="/search" component={SearchPage} />
           <Route path="/ask" component={AskPage} />
           <Route path="/signin" component={SignInPage} />
+          <Route component={NotFoundPage} />
         </Switch>
       </div>
     </BrowserRouter>
