@@ -10,8 +10,11 @@ import {
   Dispatch,
   Reducer,
   combineReducers,
+  Store,
+  createStore,
+  applyMiddleware,
 } from 'redux';
-import { ThunkAction } from 'redux-thunk';
+import thunk, { ThunkAction } from 'redux-thunk';
 
 interface QuestionsState {
   readonly loading: boolean;
@@ -139,3 +142,9 @@ const questionsReducer: Reducer<QuestionsState, QuestionsActions> = (
 const rootReducer = combineReducers<AppState>({
   questions: questionsReducer,
 });
+
+//Create store
+export function configureStore(): Store<AppState> {
+  const store = createStore(rootReducer, undefined, applyMiddleware(thunk));
+  return store;
+}
